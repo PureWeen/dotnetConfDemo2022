@@ -54,6 +54,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="ChatConversation.xaml.cs">
+	    <DependentUpon>ChatConversation.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Activity.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -63,6 +69,13 @@
 	  <MauiXaml Update="Chat.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ChatConversation.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Controls\" />
 	</ItemGroup>
 
 </Project>

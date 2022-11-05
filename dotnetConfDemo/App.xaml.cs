@@ -9,10 +9,9 @@ public partial class App : Application
 
     protected override Window CreateWindow(IActivationState activationState)
     {
-        return new Window(new AppShell())
-        {
-            Width = 1920,
-            Height = 1080
-        };
+        // These services are scoped to the window
+        var scopedService = activationState.Context.Services;
+        var window = scopedService.GetRequiredService<Window>();
+        return window;
     }
 }
