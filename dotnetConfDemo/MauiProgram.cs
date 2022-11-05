@@ -35,7 +35,9 @@ public static class MauiProgram
             {
                 return sp.GetService<Shell>().Navigation;
             })
-            .AddScoped<MainPage>();
+            .AddTransient<Calendar>()
+            .AddTransient<Chat>()
+            .AddTransient<MainPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

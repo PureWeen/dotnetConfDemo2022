@@ -3,18 +3,38 @@
     x:Class="dotnetConfDemo.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:dotnetConfDemo">
+    xmlns:local="clr-namespace:dotnetConfDemo"
+    >
+
+    <Shell.Resources>
+        <Style TargetType="Layout" Class="FlyoutItemLayoutStyle" ApplyToDerivedTypes="True">
+            <Setter Property="ToolTipProperties.Text" Value="{Binding Title}" />
+            <Setter Property="FlyoutBase.ContextFlyout">
+                <Setter.Value>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Rabbits"></MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Bunnies"></MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Visions of Disorder"></MenuFlyoutItem>
+                    </MenuFlyout>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Shell.Resources>
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        ContentTemplate="{DataTemplate local:Activity}"
         Route="MainPage" />
     <ShellContent
         Title="More Content"
-        ContentTemplate="{DataTemplate local:MainPage}">
+        ContentTemplate="{DataTemplate local:Calendar}">
     </ShellContent>
     <ShellContent
         Title="More Content"
+        ContentTemplate="{DataTemplate local:Chat}">
+    </ShellContent>
+    <ShellContent
+        Title="Main Page"
         ContentTemplate="{DataTemplate local:MainPage}">
     </ShellContent>
     <VisualStateManager.VisualStateGroups>
@@ -22,7 +42,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="Small">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="400" />
+                        <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Property="FlyoutBehavior" Value="Locked" />
@@ -31,7 +51,7 @@
                 </VisualState>
                 <VisualState x:Name="Middle">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="640" />
+                        <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Property="FlyoutBehavior" Value="Flyout" />
@@ -39,7 +59,7 @@
                 </VisualState>
                 <VisualState x:Name="Larger">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="900" />
+                        <AdaptiveTrigger MinWindowWidth="1248" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Property="FlyoutBehavior" Value="Locked" />
@@ -48,4 +68,5 @@
             </VisualStateGroup>
         </VisualStateGroupList>
     </VisualStateManager.VisualStateGroups>
+
 </Shell>

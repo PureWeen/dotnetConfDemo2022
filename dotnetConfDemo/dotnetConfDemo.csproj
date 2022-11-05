@@ -53,4 +53,16 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Foldable"></PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Activity.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Calendar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Chat.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

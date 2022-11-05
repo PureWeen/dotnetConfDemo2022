@@ -8,6 +8,85 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+                <ResourceDictionary>
+                    <DataTemplate x:Key="FlyoutTemplate">
+                        <Grid x:Name="FlyoutItemLayout"
+                              Background="Purple"
+                              HeightRequest="{OnPlatform 44, Android=50}"
+                              ColumnSpacing="{OnPlatform WinUI=0}"
+                              RowSpacing="{OnPlatform WinUI=0}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="Transparent" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background"
+                                                    Value="{AppThemeBinding Light=Black, Dark=White}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{OnPlatform Android=54, iOS=50, WinUI=Auto}" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="FlyoutItemImage"
+                               Source="{Binding FlyoutIcon}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="{OnPlatform Default=Center, WinUI=Start}"
+                               HeightRequest="{OnPlatform Android=24, iOS=22, WinUI=16}"
+                               WidthRequest="{OnPlatform Android=24, iOS=22, WinUI=16}">
+                                <Image.Margin>
+                                    <OnPlatform x:TypeArguments="Thickness">
+                                        <OnPlatform.Platforms>
+                                            <On Platform="WinUI"
+                                                Value="12,0,12,0" />
+                                        </OnPlatform.Platforms>
+                                    </OnPlatform>
+                                </Image.Margin>
+                            </Image>
+                            <Label x:Name="FlyoutItemLabel"
+                               Grid.Column="1"
+                               Text="{Binding Title}"
+                               FontSize="{OnPlatform Android=14, iOS=14}"
+                               FontAttributes="{OnPlatform iOS=Bold}"
+                               HorizontalOptions="{OnPlatform WinUI=Start}"
+                               HorizontalTextAlignment="{OnPlatform WinUI=Start}"
+                               VerticalTextAlignment="Center">
+                                <Label.TextColor>
+                                    <OnPlatform x:TypeArguments="Color">
+                                        <OnPlatform.Platforms>
+                                            <On Platform="Android"
+                                                Value="{AppThemeBinding Light=Black, Dark=White}" />
+                                        </OnPlatform.Platforms>
+                                    </OnPlatform>
+                                </Label.TextColor>
+                                <Label.Margin>
+                                    <OnPlatform x:TypeArguments="Thickness">
+                                        <OnPlatform.Platforms>
+                                            <On Platform="Android"
+                                                Value="20, 0, 0, 0" />
+                                        </OnPlatform.Platforms>
+                                    </OnPlatform>
+                                </Label.Margin>
+                                <Label.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <OnPlatform.Platforms>
+                                            <On Platform="Android"
+                                                Value="sans-serif-medium" />
+                                        </OnPlatform.Platforms>
+                                    </OnPlatform>
+                                </Label.FontFamily>
+                            </Label>
+                        </Grid>
+                    </DataTemplate>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

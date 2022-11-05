@@ -27,8 +27,6 @@ public partial class MainPage : ContentPage
             CounterBtn.Text = $"Clicked {count} times";
 
         SemanticScreenReader.Announce(CounterBtn.Text);
-
-        application.OpenWindow(new Window(new AppShell()));
     }
 
     void Button_Clicked(object sender, EventArgs e)
