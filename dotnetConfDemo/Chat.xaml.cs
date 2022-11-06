@@ -107,7 +107,9 @@ public partial class Chat : ContentPage
         {
             ChatId = ((sender as BindableObject).BindingContext as ChatConversationData).Id,
             Height = 400,
-            Width = 400
+            Width = 400,
+            X = Window.Width / 2,
+            Y = Window.Height / 2
         };
 
         application.OpenWindow(window);

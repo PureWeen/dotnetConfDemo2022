@@ -17,8 +17,13 @@ public partial class App : MauiWinUIApplication
 	public App()
 	{
 		this.InitializeComponent();
+        this.UnhandledException += App_UnhandledException;
 	}
 
-	protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+    private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+    }
+
+    protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
 }
 

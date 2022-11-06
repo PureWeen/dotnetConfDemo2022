@@ -25,11 +25,7 @@ public partial class ChatConversationControl : Grid
 
     void OnUnloaded(object sender, EventArgs e)
     {
-        ChatConversationViewModel?.StopWatchingForChanges();
-
-
-        if (ChatConversationViewModel != null)
-            ChatConversationViewModel.Messages.CollectionChanged -= MessageCollectionChanged;
+        StopWatchingForChanges();
     }
 
     public ChatConversationViewModel ChatConversationViewModel
@@ -37,8 +33,18 @@ public partial class ChatConversationControl : Grid
         get => this.BindingContext as ChatConversationViewModel;
         set
         {
+            StopWatchingForChanges();
             this.BindingContext = value;
             WatchForChanges();
+        }
+    }
+
+    void StopWatchingForChanges()
+    {
+        if (ChatConversationViewModel != null)
+        {
+            ChatConversationViewModel?.StopWatchingForChanges();
+            ChatConversationViewModel.Messages.CollectionChanged -= MessageCollectionChanged;
         }
     }
 
@@ -47,6 +53,7 @@ public partial class ChatConversationControl : Grid
         if (IsLoaded && ChatConversationViewModel != null)
         {
             ChatConversationViewModel.WatchForChanges();
+
             DoScroll();
             ChatConversationViewModel.Messages.CollectionChanged -= MessageCollectionChanged;
             ChatConversationViewModel.Messages.CollectionChanged += MessageCollectionChanged;
@@ -68,13 +75,12 @@ public partial class ChatConversationControl : Grid
             return;
 
         processingScroll = true;
-        Dispatcher.Dispatch(async () =>
+        Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(50), () =>
         {
-            await Task.Delay(50);
             processingScroll = false;
 
             if (IsLoaded && ChatConversationViewModel != null)
-                cv.ScrollTo(ChatConversationViewModel.Messages.Count - 1);
+                cv.ScrollTo(ChatConversationViewModel.Messages.Count - 1, animate: false);
         });
     }
 }

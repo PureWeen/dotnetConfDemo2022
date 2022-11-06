@@ -51,7 +51,11 @@ public partial class AppShell : Shell
             var data = chatConversationService.AddConversation(userName);
             application.OpenWindow(new ChatWindow()
             {
-                ChatId = data.Id
+                ChatId = data.Id,
+                Height = 400,
+                Width = 400,
+                X = Window.Width / 2,
+                Y = Window.Height / 2
             });
         }
     }

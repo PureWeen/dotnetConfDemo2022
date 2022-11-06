@@ -17,6 +17,17 @@ namespace dotnetConfDemo
     public class ScopedWindow<T> : Window
         where T : Page
     {
+        public ScopedWindow()
+        {
+            this.Destroying += ScopedWindow_Destroying;
+        }
+
+        private void ScopedWindow_Destroying(object sender, EventArgs e)
+        {
+            Page?.Handler?.DisconnectHandler();
+            Handler?.DisconnectHandler();
+        }
+
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)
         {
             base.OnHandlerChanging(args);
@@ -28,8 +39,6 @@ namespace dotnetConfDemo
                 // This will set me up as the scoped window returned for the service
                 _ = args.NewHandler.MauiContext.Services.GetService<Window>();
             }
-
-
         }
     }
 }
