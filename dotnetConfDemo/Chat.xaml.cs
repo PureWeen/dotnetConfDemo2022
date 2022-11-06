@@ -43,9 +43,11 @@ public partial class Chat : ContentPage
 
         Window.SizeChanged += OnWindowSizeChanged;
 
-        chatConversationService
-            .GetChatConversationList()
-            .CollectionChanged += OnConversationChanged;
+        var conversationList =
+            chatConversationService.GetChatConversationList();
+
+        conversationList.CollectionChanged -= OnConversationChanged;
+        conversationList.CollectionChanged += OnConversationChanged;
     }
 
     void OnConversationChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

@@ -2,7 +2,7 @@ using dotnetConfDemo.Services;
 
 namespace dotnetConfDemo;
 
-public partial class ChatConversation : Shell
+public partial class ChatConversation : ContentPage
 {
     private readonly ChatConversationService chatConversationService;
 

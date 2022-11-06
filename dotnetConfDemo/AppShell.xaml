@@ -35,6 +35,7 @@
                 <Setter.Value>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="New Chat" Clicked="OpenNewChat"></MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Pop out new chat" Clicked="OpenNewChatWindow"></MenuFlyoutItem>
                     </MenuFlyout>
                 </Setter.Value>
             </Setter>

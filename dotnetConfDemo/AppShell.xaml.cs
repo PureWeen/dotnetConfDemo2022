@@ -32,9 +32,19 @@ public partial class AppShell : Shell
         }
     }
 
-    void OpenNewChat(object sender, EventArgs e)
+    async void OpenNewChat(object sender, EventArgs e)
     {
-        string userName = "awefawef";
+        string userName = await DisplayPromptAsync("New Chat Message", "Enter Username");
+
+        if (!String.IsNullOrWhiteSpace(userName))
+        {
+            _ = chatConversationService.AddConversation(userName);
+        }
+    }
+
+    async void OpenNewChatWindow(object sender, EventArgs e)
+    {
+        string userName = await DisplayPromptAsync("New Chat Message", "Enter Username");
 
         if (!String.IsNullOrWhiteSpace(userName))
         {
