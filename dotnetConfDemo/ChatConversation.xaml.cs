@@ -1,20 +1,26 @@
+using dotnetConfDemo.Services;
+
 namespace dotnetConfDemo;
 
 public partial class ChatConversation : Shell
 {
-    public ChatConversation()
+    private readonly ChatConversationService chatConversationService;
+
+    public ChatConversation(ChatConversationService chatConversationService)
     {
         InitializeComponent();
-    }
-
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
+        this.chatConversationService = chatConversationService;
     }
 
 
-    protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnNavigatedFrom(args);
+        base.OnHandlerChanging(args);
+        if (this.Window is ChatWindow ct && args.NewHandler != null)
+        {
+            var data = chatConversationService.GetChatConversation(ct.ChatId);
+            chatControl.ChatConversationViewModel = new ViewModel.ChatConversationViewModel(data, Dispatcher);
+            this.BindingContext = data;
+        }
     }
 }

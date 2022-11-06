@@ -10,6 +10,21 @@
         <Style x:Key="BaseFlyoutItemStyle" TargetType="Layout" ApplyToDerivedTypes="True">
             <Setter Property="ToolTipProperties.Text" Value="{Binding Title}" />
             <Setter Property="WidthRequest" Value="{StaticResource FlyoutLockedWidth}"></Setter>
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <Setter.Value>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="AdditionalStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter TargetName="FlyoutItemImage" Property="WidthRequest" Value="48" />
+                                    <Setter TargetName="FlyoutItemImage" Property="HeightRequest" Value="48" />
+                                    <Setter TargetName="FlyoutItemImage" Property="Margin" Value="0" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style TargetType="Layout" Class="FlyoutItemLayoutStyle" ApplyToDerivedTypes="True" BasedOn="{StaticResource BaseFlyoutItemStyle}">
@@ -20,30 +35,27 @@
                 <Setter.Value>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="New Chat" Clicked="OpenNewChat"></MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Pop out new chat" Clicked="OpenNewChatWindow"></MenuFlyoutItem>
                     </MenuFlyout>
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Shell.Resources>
 
     <ShellContent 
+        x:Name="chatContent"
         Title="Chat"
         StyleClass="ChatFlyoutItemStyle"
-        ContentTemplate="{DataTemplate local:Chat}">
+        FlyoutIcon="chatunselected.png"
+        ContentTemplate="{DataTemplate local:Chat}"
+        Route="Chat">
     </ShellContent>
-    <ShellContent        
-        Title="Home"
-        ContentTemplate="{DataTemplate local:Activity}"
-        Route="MainPage">
-    </ShellContent>
-    <ShellContent
-        Title="More Content"
-        ContentTemplate="{DataTemplate local:Calendar}">
-    </ShellContent>
-    <ShellContent
-        Title="Main Page"
-        ContentTemplate="{DataTemplate local:MainPage}">
+    <ShellContent       
+        x:Name="calendarContent"
+        Title="Calendar"
+        FlyoutIcon="calendarunselected.png"
+        ContentTemplate="{DataTemplate local:Calendar}"
+        Route="Calendar">
     </ShellContent>
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroupList>
@@ -54,7 +66,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Property="FlyoutBehavior" Value="Locked" />
-                        <Setter Property="FlyoutWidth" Value="48"></Setter>
+                        <Setter Property="FlyoutWidth" Value="60"></Setter>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Middle">

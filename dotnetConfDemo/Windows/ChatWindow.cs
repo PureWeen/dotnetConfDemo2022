@@ -11,5 +11,7 @@ namespace dotnetConfDemo
         public ChatWindow() : base()
         {
         }
+
+        public string ChatId { get; internal set; }
     }
 }

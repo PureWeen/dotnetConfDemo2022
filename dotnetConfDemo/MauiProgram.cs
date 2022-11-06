@@ -1,6 +1,7 @@
 ﻿using dotnetConfDemo.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Foldable;
 
 namespace dotnetConfDemo;
 
@@ -11,6 +12,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseFoldable()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -45,10 +47,12 @@ public static class MauiProgram
             })
             .AddScoped<ChatWindow>()
             .AddScoped<ChatConversation>()
-            .AddTransient<Activity>()
             .AddTransient<Calendar>()
             .AddTransient<Chat>()
-            .AddTransient<MainPage>();
+            .AddTransient<MainPage>()
+            .AddTransient<PushedChatConversation>();
+
+        Routing.RegisterRoute("PushedChatConversation", typeof(PushedChatConversation));
 
 #if DEBUG
         builder.Logging.AddDebug();

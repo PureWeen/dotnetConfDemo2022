@@ -1,24 +1,48 @@
-﻿using Microsoft.Maui.Handlers;
+﻿using dotnetConfDemo.Services;
+using Microsoft.Maui.Handlers;
 
 namespace dotnetConfDemo;
 
 public partial class AppShell : Shell
 {
     private readonly IApplication application;
+    private readonly ChatConversationService chatConversationService;
 
-    public AppShell(IApplication application)
+    public AppShell(IApplication application, ChatConversationService chatConversationService)
     {
         InitializeComponent();
         this.application = application;
+        this.chatConversationService = chatConversationService;
     }
 
-    void OpenNewChatWindow(object sender, EventArgs e)
+
+    protected override void OnNavigated(ShellNavigatedEventArgs args)
     {
-        application.OpenWindow(new ChatWindow());
+        base.OnNavigated(args);
+
+        if (!chatContent.IsChecked)
+        {
+            chatContent.FlyoutIcon = "chatunselected.png";
+            calendarContent.FlyoutIcon = "calendarselected.png";
+        }
+        else
+        {
+            chatContent.FlyoutIcon = "chatselected.png";
+            calendarContent.FlyoutIcon = "calendarunselected.png";
+        }
     }
 
-    private void OpenNewChat(object sender, EventArgs e)
+    void OpenNewChat(object sender, EventArgs e)
     {
+        string userName = "awefawef";
 
+        if (!String.IsNullOrWhiteSpace(userName))
+        {
+            var data = chatConversationService.AddConversation(userName);
+            application.OpenWindow(new ChatWindow()
+            {
+                ChatId = data.Id
+            });
+        }
     }
 }

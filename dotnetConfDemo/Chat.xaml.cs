@@ -1,4 +1,6 @@
+using dotnetConfDemo.Data;
 using dotnetConfDemo.Services;
+using dotnetConfDemo.ViewModel;
 using System.ComponentModel;
 
 namespace dotnetConfDemo;
@@ -6,24 +8,81 @@ namespace dotnetConfDemo;
 public partial class Chat : ContentPage
 {
     private readonly ChatConversationService chatConversationService;
+    private readonly Shell shell;
+    private readonly IApplication application;
+    private readonly IDispatcher dispatcher;
 
-    public Chat(ChatConversationService chatConversationService)
+    public Chat(ChatConversationService chatConversationService, Shell shell, IApplication application, IDispatcher dispatcher)
     {
         InitializeComponent();
         this.chatConversationService = chatConversationService;
+        this.shell = shell;
+        this.application = application;
+
+        // Dispatcher is also available on base class but I'm just demonstrating that you can also resolve the dispathcer here
+        this.dispatcher = dispatcher;
+
         twoPaneView.Pane1Length = new GridLength(4, GridUnitType.Star);
         twoPaneView.Pane2Length = new GridLength(9, GridUnitType.Star);
-
     }
 
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
-        chatLayout.ItemsSource =
-            chatConversationService
-                .GetChatConversationList()
-                .Select(x => new ChatConversationViewModel(x))
-                .ToList(); ;
+
+        // Just load the data the first time
+        if (chatLayout.ItemsSource == null)
+        {
+            var chatData = chatConversationService
+                    .GetChatConversationList()
+                    .Select(x => new ChatConversationViewModel(x, dispatcher))
+                    .ToList();
+
+            chatLayout.ItemsSource = chatData;
+        }
+
+        Window.SizeChanged += OnWindowSizeChanged;
+
+        chatConversationService
+            .GetChatConversationList()
+            .CollectionChanged += OnConversationChanged;
+    }
+
+    void OnConversationChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        if (e.NewItems != null && chatLayout.ItemsSource is List<ChatConversationViewModel> chatData)
+        {
+            foreach (ChatConversationData cc in e.NewItems)
+            {
+                chatData.Add(new ChatConversationViewModel(cc, Dispatcher));
+            }
+
+            chatLayout.ItemsSource = new List<ChatConversationViewModel>(chatData);
+            chatLayout.SelectedItem = chatData.Last();
+        }
+    }
+
+    void OnWindowSizeChanged(object sender, EventArgs e)
+    {
+        CheckWindowSize();
+    }
+
+    async void CheckWindowSize()
+    {
+        if (Window.Width < 600 && chatLayout.SelectedItem is ChatConversationViewModel selected)
+        {
+            await shell.GoToAsync($"{nameof(PushedChatConversation)}?Id={selected.ChatConversation.Id}");
+        }
+    }
+
+    protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
+    {
+        base.OnNavigatingFrom(args);
+        Window.SizeChanged -= OnWindowSizeChanged;
+
+        chatConversationService
+            .GetChatConversationList()
+            .CollectionChanged -= OnConversationChanged;
     }
 
     void OnChatSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -34,35 +93,21 @@ public partial class Chat : ContentPage
         if (e.CurrentSelection.FirstOrDefault() is ChatConversationViewModel current)
         {
             current.IsSelected = true;
-            chatConversation.BindingContext = current.ChatConversation;
+            chatConversation.ChatConversationViewModel = new ChatConversationViewModel(current.ChatConversation, dispatcher);
         }
+
+        CheckWindowSize();
     }
 
-    class ChatConversationViewModel : INotifyPropertyChanged
+    void OnOpenChatInNewWindow(object sender, EventArgs e)
     {
-        private bool isSelected;
-
-        public ChatConversationViewModel(ChatConversationData chatConversation)
+        var window = new ChatWindow()
         {
-            this.ChatConversation = chatConversation;
-        }
+            ChatId = ((sender as BindableObject).BindingContext as ChatConversationData).Id,
+            Height = 400,
+            Width = 400
+        };
 
-        public ChatConversationData ChatConversation { get; }
-        public bool IsSelected
-        {
-            get => isSelected; set
-            {
-                if (value == isSelected) return;
-
-                isSelected = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Background)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PointerOverColor)));
-            }
-        }
-
-        public Brush Background => (isSelected) ? SolidColorBrush.LightBlue : SolidColorBrush.Green;
-        public Brush PointerOverColor => (isSelected) ? SolidColorBrush.LightBlue : SolidColorBrush.Purple;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        application.OpenWindow(window);
     }
 }

@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="dotnetConfDemo.Chat"
              Title="Chat"
+             xmlns:control="clr-namespace:dotnetConfDemo.Controls"
              xmlns:foldable="clr-namespace:Microsoft.Maui.Controls.Foldable;assembly=Microsoft.Maui.Controls.Foldable">
     <foldable:TwoPaneView 
             x:Name="twoPaneView"
-            MinWideModeWidth="600"
+            MinWideModeWidth="550"
             TallModeConfiguration="SinglePane">
         <foldable:TwoPaneView.Pane1>
             <ScrollView>
@@ -39,11 +40,11 @@
                                 <VerticalStackLayout Margin="10" Padding="15,0,0,0" BindingContext="{Binding ChatConversation}">
                                     <FlyoutBase.ContextFlyout>
                                         <MenuFlyout>
-                                            <MenuFlyoutItem Text="Open In New Window"></MenuFlyoutItem>
+                                            <MenuFlyoutItem Text="Open In New Window" Clicked="OnOpenChatInNewWindow"></MenuFlyoutItem>
                                         </MenuFlyout>
                                     </FlyoutBase.ContextFlyout>
                                     <Label FontAttributes="Bold" Text="{Binding UserName}"></Label>
-                                    <Label FontSize="10" Text="{Binding LastMessage}"></Label>
+                                    <Label FontSize="10" Text="{Binding LastMessage.Message}"></Label>
                                 </VerticalStackLayout>
                             </Border>
                         </DataTemplate>
@@ -52,24 +53,7 @@
             </ScrollView>
         </foldable:TwoPaneView.Pane1>
         <foldable:TwoPaneView.Pane2>
-            <Grid x:Name="chatConversation">
-                <CollectionView ItemsSource="{Binding Messages}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <VerticalStackLayout>
-                                <Border HorizontalOptions="End">
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="20" />
-                                    </Border.StrokeShape>
-                                    <Grid Padding="15,25,15,25" BackgroundColor="DarkViolet" HorizontalOptions="End">
-                                        <Label Text="{Binding .}" HorizontalOptions="End"></Label>
-                                    </Grid>
-                                </Border>
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Grid>
+            <control:ChatConversationControl x:Name="chatConversation"></control:ChatConversationControl>
         </foldable:TwoPaneView.Pane2>
     </foldable:TwoPaneView>
 </ContentPage>
