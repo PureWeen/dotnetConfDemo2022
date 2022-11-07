@@ -5,6 +5,9 @@ namespace dotnetConfDemo.Controls;
 
 public partial class ChatConversationControl : Grid
 {
+    public ChatConversationViewModel ChatConversationViewModel { get; private set; }
+    Window window;
+
     public ChatConversationControl()
     {
         InitializeComponent();
@@ -15,6 +18,15 @@ public partial class ChatConversationControl : Grid
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
+
+        if (ChatConversationViewModel != null)
+            StopWatchingForChanges();
+
+        ChatConversationViewModel = BindingContext as ChatConversationViewModel;
+
+        if (ChatConversationViewModel != null)
+            WatchForChanges();
+
         enterChat.IsVisible = this.BindingContext != null;
     }
 
@@ -28,17 +40,6 @@ public partial class ChatConversationControl : Grid
         StopWatchingForChanges();
     }
 
-    public ChatConversationViewModel ChatConversationViewModel
-    {
-        get => this.BindingContext as ChatConversationViewModel;
-        set
-        {
-            StopWatchingForChanges();
-            this.BindingContext = value;
-            WatchForChanges();
-        }
-    }
-
     void StopWatchingForChanges()
     {
         if (ChatConversationViewModel != null)
@@ -46,6 +47,11 @@ public partial class ChatConversationControl : Grid
             ChatConversationViewModel?.StopWatchingForChanges();
             ChatConversationViewModel.Messages.CollectionChanged -= MessageCollectionChanged;
         }
+
+        if (window != null)
+            window.Destroying -= OnWindowClosing;
+
+        window = null;
     }
 
     void WatchForChanges()
@@ -53,11 +59,16 @@ public partial class ChatConversationControl : Grid
         if (IsLoaded && ChatConversationViewModel != null)
         {
             ChatConversationViewModel.WatchForChanges();
-
             DoScroll();
-            ChatConversationViewModel.Messages.CollectionChanged -= MessageCollectionChanged;
             ChatConversationViewModel.Messages.CollectionChanged += MessageCollectionChanged;
+            Window.Destroying += OnWindowClosing;
+            window = Window;
         }
+    }
+
+    void OnWindowClosing(object sender, EventArgs e)
+    {
+        StopWatchingForChanges();
     }
 
     bool processingScroll = false;

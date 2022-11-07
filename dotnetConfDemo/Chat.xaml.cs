@@ -46,7 +46,6 @@ public partial class Chat : ContentPage
         var conversationList =
             chatConversationService.GetChatConversationList();
 
-        conversationList.CollectionChanged -= OnConversationChanged;
         conversationList.CollectionChanged += OnConversationChanged;
     }
 
@@ -95,7 +94,7 @@ public partial class Chat : ContentPage
         if (e.CurrentSelection.FirstOrDefault() is ChatConversationViewModel current)
         {
             current.IsSelected = true;
-            chatConversation.ChatConversationViewModel = new ChatConversationViewModel(current.ChatConversation, dispatcher);
+            chatConversation.BindingContext = new ChatConversationViewModel(current.ChatConversation, dispatcher);
         }
 
         CheckWindowSize();

@@ -46,11 +46,11 @@ public static class MauiProgram
                 return sp.GetService<Shell>().Navigation;
             })
             .AddScoped<ChatWindow>()
-            .AddScoped<ChatConversation>()
+            .AddScoped<ChatConversationShell>()
             .AddTransient<Calendar>()
             .AddTransient<Chat>()
-            .AddTransient<MainPage>()
-            .AddTransient<PushedChatConversation>();
+            .AddTransient<PushedChatConversation>()
+            .AddTransient<ContentPage>(); // This is just here for testing purposes
 
         Routing.RegisterRoute("PushedChatConversation", typeof(PushedChatConversation));
 

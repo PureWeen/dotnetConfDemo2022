@@ -50,6 +50,8 @@ namespace dotnetConfDemo.ViewModel
             }
         }
 
+        public string UserName => ChatConversation.UserName;
+
         public Command AddChatMessage { get; }
 
         public ChatConversationData ChatConversation { get; }

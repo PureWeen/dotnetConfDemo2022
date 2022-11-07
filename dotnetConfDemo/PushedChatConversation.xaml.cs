@@ -22,8 +22,7 @@ public partial class PushedChatConversation : ContentPage
         {
             chatId = value;
             var chatData = chatConversationService.GetChatConversation(ChatId);
-            chatConversationControl.ChatConversationViewModel = new ViewModel.ChatConversationViewModel(chatData, Dispatcher);
-            this.BindingContext = chatData;
+            this.BindingContext = new ViewModel.ChatConversationViewModel(chatData, Dispatcher);
         }
     }
 

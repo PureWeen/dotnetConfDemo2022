@@ -54,8 +54,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="ChatConversation.xaml.cs">
-	    <DependentUpon>ChatConversation.xaml</DependentUpon>
+	  <Compile Update="ChatConversationShell.xaml.cs">
+	    <DependentUpon>ChatConversationShell.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -66,10 +66,13 @@
 	  <MauiXaml Update="Chat.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ChatConversation.xaml">
+	  <MauiXaml Update="ChatConversationShell.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\ChatConversationControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MainPageChatConversation.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="PushedChatConversation.xaml">

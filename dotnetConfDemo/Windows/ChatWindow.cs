@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dotnetConfDemo
 {
-    public class ChatWindow : ScopedWindow<ChatConversation>
+    public class ChatWindow : ScopedWindow<ChatConversationShell>
     {
         public ChatWindow() : base()
         {

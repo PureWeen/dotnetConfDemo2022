@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maui.Handlers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,13 +20,18 @@ namespace dotnetConfDemo
     {
         public ScopedWindow()
         {
-            this.Destroying += ScopedWindow_Destroying;
         }
 
-        private void ScopedWindow_Destroying(object sender, EventArgs e)
+        protected override void OnHandlerChanged()
         {
-            Page?.Handler?.DisconnectHandler();
-            Handler?.DisconnectHandler();
+            base.OnHandlerChanged();
+
+#if WINDOWS
+            if (Handler is WindowHandler handler)
+            {
+                // handler.PlatformView.ExtendsContentIntoTitleBar = false;
+            }
+#endif
         }
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)
@@ -39,6 +45,7 @@ namespace dotnetConfDemo
                 // This will set me up as the scoped window returned for the service
                 _ = args.NewHandler.MauiContext.Services.GetService<Window>();
             }
+
         }
     }
 }
