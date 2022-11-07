@@ -14,7 +14,6 @@ public partial class ChatConversationShell : Shell
         this.application = application;
     }
 
-
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);

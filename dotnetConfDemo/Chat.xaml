@@ -10,47 +10,45 @@
             MinWideModeWidth="550"
             TallModeConfiguration="SinglePane">
         <foldable:TwoPaneView.Pane1>
-            <ScrollView>
-                <CollectionView
+            <CollectionView
                     SelectionMode="Single"
                     x:Name="chatLayout"
                     SelectionChanged="OnChatSelectionChanged">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Background="{Binding Background}">
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroupList>
-                                        <VisualStateGroup x:Name="CommonStates">
-                                            <VisualState x:Name="Normal">
-                                                <VisualState.Setters>
-                                                    <Setter Property="Background" Value="{Binding Background}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="PointerOver">
-                                                <VisualState.Setters>
-                                                    <Setter Property="Background" Value="{Binding PointerOverColor}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateGroupList>
-                                </VisualStateManager.VisualStateGroups>
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="40,0,0,40" />
-                                </Border.StrokeShape>
-                                <VerticalStackLayout Margin="10" Padding="15,0,0,0" BindingContext="{Binding ChatConversation}">
-                                    <FlyoutBase.ContextFlyout>
-                                        <MenuFlyout>
-                                            <MenuFlyoutItem Text="Open In New Window" Clicked="OnOpenChatInNewWindow"></MenuFlyoutItem>
-                                        </MenuFlyout>
-                                    </FlyoutBase.ContextFlyout>
-                                    <Label FontAttributes="Bold" Text="{Binding UserName}"></Label>
-                                    <Label FontSize="10" Text="{Binding LastMessage.Message}"></Label>
-                                </VerticalStackLayout>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </ScrollView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{Binding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{Binding Background}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{Binding PointerOverColor}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="40,0,0,40" />
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Margin="10" Padding="15,0,0,0" BindingContext="{Binding ChatConversation}">
+                                <FlyoutBase.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Open In New Window" Clicked="OnOpenChatInNewWindow"></MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </FlyoutBase.ContextFlyout>
+                                <Label FontAttributes="Bold" Text="{Binding UserName}"></Label>
+                                <Label FontSize="10" Text="{Binding LastMessage.Message}"></Label>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </foldable:TwoPaneView.Pane1>
         <foldable:TwoPaneView.Pane2>
             <control:ChatConversationControl x:Name="chatConversation"></control:ChatConversationControl>

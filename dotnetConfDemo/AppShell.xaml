@@ -77,7 +77,7 @@
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Property="FlyoutBehavior" Value="{OnPlatform Android=Locked,iOS=Locked,MacCatalyst=Locked,WinUI=Flyout}" />
+                        <Setter Property="FlyoutBehavior" Value="{OnPlatform Android=Flyout,iOS=Flyout,MacCatalyst=Locked,WinUI=Flyout}" />
                         <Setter Property="FlyoutWidth" Value="{OnPlatform Android=200,iOS=200,MacCatalyst=200,WinUI=320}"></Setter>
                     </VisualState.Setters>
                 </VisualState>
