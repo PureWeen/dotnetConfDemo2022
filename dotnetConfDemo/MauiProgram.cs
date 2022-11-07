@@ -50,6 +50,7 @@ public static class MauiProgram
             .AddTransient<Calendar>()
             .AddTransient<Chat>()
             .AddTransient<PushedChatConversation>()
+            .AddTransient<MainPageChatConversation>()
             .AddTransient<ContentPage>(); // This is just here for testing purposes
 
         Routing.RegisterRoute("PushedChatConversation", typeof(PushedChatConversation));

@@ -3,10 +3,8 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
        xmlns:control="clr-namespace:dotnetConfDemo.Controls"
        x:Class="dotnetConfDemo.ChatConversationShell"
+        xmlns:local="clr-namespace:dotnetConfDemo"
        Title="{Binding UserName}">
-    <ShellContent Title="{Binding UserName}" Route="MainPageChatConversation">
-        <ContentPage>
-            <control:ChatConversationControl x:Name="chatControl"></control:ChatConversationControl>
-        </ContentPage>
+    <ShellContent Route="MainPageChatConversation" ContentTemplate="{DataTemplate local:MainPageChatConversation}">
     </ShellContent>
 </Shell>

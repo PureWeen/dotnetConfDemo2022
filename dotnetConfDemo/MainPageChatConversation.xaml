@@ -2,11 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="dotnetConfDemo.MainPageChatConversation"
-             Title="MainPageChatConversation">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:control="clr-namespace:dotnetConfDemo.Controls">
+
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="File">
+            <MenuFlyoutItem Text="Close" Clicked="OnMenuFlyoutItem"></MenuFlyoutItem>
+            <MenuFlyoutSeparator></MenuFlyoutSeparator>
+            <MenuFlyoutItem Text="Contrived Reason To Push a Page" Clicked="OnPushSomePage"></MenuFlyoutItem>
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+    <control:ChatConversationControl x:Name="chatControl"></control:ChatConversationControl>
 </ContentPage>

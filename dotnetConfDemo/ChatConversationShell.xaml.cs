@@ -5,11 +5,13 @@ namespace dotnetConfDemo;
 public partial class ChatConversationShell : Shell
 {
     private readonly ChatConversationService chatConversationService;
+    private readonly IApplication application;
 
-    public ChatConversationShell(ChatConversationService chatConversationService)
+    public ChatConversationShell(ChatConversationService chatConversationService, IApplication application)
     {
         InitializeComponent();
         this.chatConversationService = chatConversationService;
+        this.application = application;
     }
 
 

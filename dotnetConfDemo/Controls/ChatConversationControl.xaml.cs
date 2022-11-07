@@ -94,10 +94,4 @@ public partial class ChatConversationControl : Grid
                 cv.ScrollTo(ChatConversationViewModel.Messages.Count - 1, animate: false);
         });
     }
-
-    void OnCloseWindow(object sender, EventArgs e)
-    {
-        StopWatchingForChanges();
-        Application.Current.CloseWindow(Window);
-    }
 }

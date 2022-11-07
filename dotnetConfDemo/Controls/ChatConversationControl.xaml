@@ -36,6 +36,5 @@
     <Grid IsVisible="False" Grid.Row="1" ColumnDefinitions="*,Auto,Auto" x:Name="enterChat">
         <Entry ReturnCommand="{Binding AddChatMessage}"  x:Name="entry" Placeholder="Enter New Chat Message" Text="{Binding NewChatMessage, Mode=TwoWay}"></Entry>
         <Button Grid.Column="1" Text="Send New Chat" Command="{Binding AddChatMessage}"></Button>
-        <Button Grid.Column="2" Text="Close" Clicked="OnCloseWindow" ></Button>
     </Grid>
 </Grid>
