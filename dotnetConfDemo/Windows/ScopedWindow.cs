@@ -26,13 +26,15 @@ namespace dotnetConfDemo
         {
             base.OnHandlerChanged();
 
-#if WINDOWS
             if (Handler is WindowHandler handler)
             {
+#if WINDOWS
                 // If you don't want to use our custom title bar
                 // handler.PlatformView.ExtendsContentIntoTitleBar = false;
-            }
+#elif MACCATALYST
+                handler.PlatformView.WindowScene.Title = Page.Title;
 #endif
+            }
         }
 
         protected override void OnHandlerChanging(HandlerChangingEventArgs args)
