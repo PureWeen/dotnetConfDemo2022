@@ -29,6 +29,7 @@ namespace dotnetConfDemo
 #if WINDOWS
             if (Handler is WindowHandler handler)
             {
+                // If you don't want to use our custom title bar
                 // handler.PlatformView.ExtendsContentIntoTitleBar = false;
             }
 #endif
