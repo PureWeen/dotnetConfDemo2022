@@ -9,7 +9,8 @@
     <Shell.Resources>
         <x:Double x:Key="FlyoutLockedWidth">200</x:Double>
         <Style x:Key="BaseFlyoutItemStyle" TargetType="Layout" ApplyToDerivedTypes="True">
-            <Setter Property="ToolTipProperties.Text" Value="{Binding Title}" />
+            <Setter Property="ToolTipProperties.Text" Value="{Binding Title}">
+            </Setter>
             <Setter Property="WidthRequest" Value="{StaticResource FlyoutLockedWidth}"></Setter>
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <Setter.Value>
@@ -67,8 +68,8 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Property="FlyoutBehavior" Value="Locked" />
-                        <Setter Property="FlyoutWidth" Value="60"></Setter>
+                        <Setter Property="FlyoutBehavior" Value="{OnPlatform Android=Flyout,iOS=Flyout,MacCatalyst=Locked,WinUI=Locked}" />
+                        <Setter Property="FlyoutWidth" Value="{OnPlatform Android=200,iOS=200,MacCatalyst=60,WinUI=60}"></Setter>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Middle">
@@ -76,8 +77,8 @@
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Property="FlyoutBehavior" Value="Flyout" />
-                        <Setter Property="FlyoutWidth" Value="{StaticResource FlyoutLockedWidth}"></Setter>
+                        <Setter Property="FlyoutBehavior" Value="{OnPlatform Android=Locked,iOS=Locked,MacCatalyst=Locked,WinUI=Flyout}" />
+                        <Setter Property="FlyoutWidth" Value="{OnPlatform Android=200,iOS=200,MacCatalyst=200,WinUI=320}"></Setter>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Larger">
