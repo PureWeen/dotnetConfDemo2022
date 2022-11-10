@@ -13,5 +13,15 @@ namespace dotnetConfDemo
         }
 
         public string ChatId { get; internal set; }
+
+
+        protected async override void OnCreated()
+        {
+            base.OnCreated();
+
+            // .NET 8 possibly we can route at the Shell level so you can open a new window
+            // through the use of GoToAsync
+            await (Page as Shell).GoToAsync($"///{nameof(MainPageChatConversation)}?Id={ChatId}");
+        }
     }
 }

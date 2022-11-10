@@ -47,6 +47,9 @@ public static class MauiProgram
             })
             .AddScoped<ChatWindow>()
             .AddScoped<ChatConversationShell>()
+            .AddTransient<ViewModel.ChatConversationViewModel>()
+
+            // These won't be necessary in .NET 8
             .AddTransient<Calendar>()
             .AddTransient<Chat>()
             .AddTransient<PushedChatConversation>()

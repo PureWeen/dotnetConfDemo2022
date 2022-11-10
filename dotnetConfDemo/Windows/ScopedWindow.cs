@@ -41,14 +41,13 @@ namespace dotnetConfDemo
         {
             base.OnHandlerChanging(args);
 
+            // .NET 8 provide a better composition starting point
             if (Page == null && args.NewHandler != null)
             {
                 Page = args.NewHandler.MauiContext.Services.GetService<T>();
-
                 // This will set me up as the scoped window returned for the service
                 _ = args.NewHandler.MauiContext.Services.GetService<Window>();
             }
-
         }
     }
 }

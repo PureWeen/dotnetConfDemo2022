@@ -12,6 +12,7 @@ public partial class Chat : ContentPage
     private readonly IApplication application;
     private readonly IDispatcher dispatcher;
 
+    // Dispatcher is useful here for injection because we might have multiple messages from different sources
     public Chat(ChatConversationService chatConversationService, Shell shell, IApplication application, IDispatcher dispatcher)
     {
         InitializeComponent();
@@ -49,18 +50,14 @@ public partial class Chat : ContentPage
         conversationList.CollectionChanged += OnConversationChanged;
     }
 
-    void OnConversationChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
     {
-        if (e.NewItems != null && chatLayout.ItemsSource is List<ChatConversationViewModel> chatData)
-        {
-            foreach (ChatConversationData cc in e.NewItems)
-            {
-                chatData.Add(new ChatConversationViewModel(cc, Dispatcher));
-            }
+        base.OnNavigatingFrom(args);
+        Window.SizeChanged -= OnWindowSizeChanged;
 
-            chatLayout.ItemsSource = new List<ChatConversationViewModel>(chatData);
-            chatLayout.SelectedItem = chatData.Last();
-        }
+        chatConversationService
+            .GetChatConversationList()
+            .CollectionChanged -= OnConversationChanged;
     }
 
     void OnWindowSizeChanged(object sender, EventArgs e)
@@ -72,32 +69,9 @@ public partial class Chat : ContentPage
     {
         if (Window.Width < 600 && chatLayout.SelectedItem is ChatConversationViewModel selected)
         {
+            // Shell is injected into the constructor so I don't have to use Shell.Current
             await shell.GoToAsync($"{nameof(PushedChatConversation)}?Id={selected.ChatConversation.Id}");
         }
-    }
-
-    protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
-    {
-        base.OnNavigatingFrom(args);
-        Window.SizeChanged -= OnWindowSizeChanged;
-
-        chatConversationService
-            .GetChatConversationList()
-            .CollectionChanged -= OnConversationChanged;
-    }
-
-    void OnChatSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.PreviousSelection.FirstOrDefault() is ChatConversationViewModel previous)
-            previous.IsSelected = false;
-
-        if (e.CurrentSelection.FirstOrDefault() is ChatConversationViewModel current)
-        {
-            current.IsSelected = true;
-            chatConversation.BindingContext = new ChatConversationViewModel(current.ChatConversation, dispatcher);
-        }
-
-        CheckWindowSize();
     }
 
     void OnOpenChatInNewWindow(object sender, EventArgs e)
@@ -112,5 +86,33 @@ public partial class Chat : ContentPage
         };
 
         application.OpenWindow(window);
+    }
+
+    void OnConversationChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        if (e.NewItems != null && chatLayout.ItemsSource is List<ChatConversationViewModel> chatData)
+        {
+            foreach (ChatConversationData cc in e.NewItems)
+            {
+                chatData.Add(new ChatConversationViewModel(cc, Dispatcher));
+            }
+
+            chatLayout.ItemsSource = new List<ChatConversationViewModel>(chatData);
+            chatLayout.SelectedItem = chatData.Last();
+        }
+    }
+
+    void OnChatSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.PreviousSelection.FirstOrDefault() is ChatConversationViewModel previous)
+            previous.IsSelected = false;
+
+        if (e.CurrentSelection.FirstOrDefault() is ChatConversationViewModel current)
+        {
+            current.IsSelected = true;
+            chatConversation.BindingContext = new ChatConversationViewModel(current.ChatConversation, dispatcher);
+        }
+
+        CheckWindowSize();
     }
 }

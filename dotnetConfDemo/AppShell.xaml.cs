@@ -34,7 +34,10 @@ public partial class AppShell : Shell
 
     async void OpenNewChat(object sender, EventArgs e)
     {
-        string userName = await DisplayPromptAsync("New Chat Message", "Enter Username");
+        //string userName = await DisplayPromptAsync("New Chat Message", "Enter Username");
+
+        // https://github.com/dotnet/maui/issues/10026
+        string userName = await Task.FromResult(Guid.NewGuid().ToString());
 
         if (!String.IsNullOrWhiteSpace(userName))
         {
@@ -44,7 +47,10 @@ public partial class AppShell : Shell
 
     async void OpenNewChatWindow(object sender, EventArgs e)
     {
-        string userName = await DisplayPromptAsync("New Chat Message", "Enter Username");
+        //string userName = await DisplayPromptAsync("New Chat Message", "Enter Username");
+
+        // https://github.com/dotnet/maui/issues/10026
+        string userName = await Task.FromResult(Guid.NewGuid().ToString());
 
         if (!String.IsNullOrWhiteSpace(userName))
         {
